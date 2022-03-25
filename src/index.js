@@ -1,17 +1,44 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import {
+  configureStore,
+  createAction,
+  createReducer,
+  createSlice,
+} from "./toolkit";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+// const add = createAction("ADD", (args) => {
+//   return {
+//     payload: args * 10,
+//   };
+// });
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// const defaultState = {
+//   count: 0,
+// };
+// const reducer = createReducer(defaultState, {
+//   [add.type](state, action) {
+//     state.count = action.payload + state.count;
+//   },
+// });
+
+// const store = configureStore({
+//   reducer,
+// });
+
+// store.dispatch(add(10));
+const todoSlice = createSlice({
+  name: "todo",
+  initialState: { count: 0 },
+  reducers: {
+    add(state, action) {
+      state.count += action.payload;
+    },
+  },
+});
+
+const store = configureStore({
+  reducer: todoSlice.reducer,
+});
+
+store.dispatch(todoSlice.actions.add(10));
+
+console.log(store.getState());
